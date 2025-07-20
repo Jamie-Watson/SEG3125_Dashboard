@@ -39,7 +39,7 @@ const EnrollmentOverTimeGraph = ({ data }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
-          <p className="fw-bold mb-2">Academic Year: {label}</p>
+          <p className="fw-bold mb-2">{t('tooltips.academicYear')}: {label}</p>
           {payload.map((entry, index) => (
             entry.value !== null && (
               <p key={index} className="mb-1" style={{ color: entry.color }}>
@@ -59,12 +59,12 @@ const EnrollmentOverTimeGraph = ({ data }) => {
 
   return (
     <div className="card">
-      <div className="card-header">
+      <div className="card-header greyBackground">
         <h5 className="mb-0">{t('EnrollmentTrendsTitle')}</h5>
         <small className="text-muted">{t('EnrollmentTrendsDescription1')}<span className="accentText">
           {t('EnrollmentTrendsDescription2')}</span></small>
       </div>
-      <div className="card-body">
+      <div className="card-body whiteBackground">
         <ResponsiveContainer width="100%" height={400}>
           <LineChart
             data={chartData}

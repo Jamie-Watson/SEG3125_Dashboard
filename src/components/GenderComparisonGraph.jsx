@@ -41,25 +41,25 @@ const GenderComparisonGraph = ({ data }) => {
       const isBalanced = data.name === mostBalanced.name;
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
-          <p className="mb-1">Year: {data.year}</p>
+          <p className="mb-1">{t('tooltips.year')}: {data.year}</p>
           <div className="mb-2">
             <span className="fw-bold">
-              Total Enrollment: {data.totalCount.toLocaleString()}
+              {t('tooltips.enrollment')}: {data.totalCount.toLocaleString()}
             </span>
           </div>
           <div className="mb-1">
             <span style={{ color: "#0d6efd" }}>
-              Men: {data.menCount.toLocaleString()} ({data.Men}%)
+              {t('tooltips.men')}: {data.menCount.toLocaleString()} ({data.Men}%)
             </span>
           </div>
           <div className="mb-0">
             <span style={{ color: "#dc3545" }}>
-              Women: {data.womenCount.toLocaleString()} ({data.Women}%)
+              {t('tooltips.women')}: {data.womenCount.toLocaleString()} ({data.Women}%)
             </span>
           </div>
           {isBalanced && (
             <div className="mt-2 fw-bold fs-5">
-              <small>Closest to 50/50 gender ratio</small>
+              <small>{t("tooltips.genderRatio")}</small>
             </div>
           )}
         </div>
@@ -70,7 +70,7 @@ const GenderComparisonGraph = ({ data }) => {
 
   return (
     <div className="card">
-      <div className="card-header">
+      <div className="card-header greyBackground">
         <h5 className="mb-0">
 
           {mostBalanced?.institution && (
@@ -84,7 +84,7 @@ const GenderComparisonGraph = ({ data }) => {
           {t("GenderDistributionDescription")}
         </small>
       </div>
-      <div className="card-body">
+      <div className="card-body whiteBackground">
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
             layout="vertical"

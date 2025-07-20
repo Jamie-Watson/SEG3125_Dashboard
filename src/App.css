@@ -53,3 +53,11 @@
 .accentText {
   color: var(--t-l-blue) !important;
 }
+
+.whiteBackground {
+  background-color: var(--t-white) !important;
+}
+
+.greyBackground {
+  background-color: var(--t-gray) !important;
+}

@@ -1,5 +1,15 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  Cell 
+} from 'recharts';
+import { t } from '../data/translations';
 const StudentTypeComparisonGraph = ({ data }) => {
   if (!data || data.length === 0) return null;
 
@@ -14,22 +24,31 @@ const StudentTypeComparisonGraph = ({ data }) => {
     International: ((item.international / item.total) * 100).toFixed(1)
   }));
 
+  const mostInternational = chartData.reduce((prev, current) =>
+    prev.internationalCount > current.internationalCount ? prev : current
+  );
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
+      const isHighestInternational = data.name === mostInternational.name;
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
-          <p className="fw-bold mb-2">{data.institution}</p>
-          <p className="mb-1">Year: {data.year}</p>
+          <p className="mb-1">{t('tooltips.year')}: {data.year}</p>
           <div className="mb-2">
-            <span className="fw-bold">Total Students: {data.totalCount.toLocaleString()}</span>
+            <span className="fw-bold">{t('tooltips.enrollment')}: {data.totalCount.toLocaleString()}</span>
           </div>
           <div className="mb-1">
-            <span style={{ color: '#0d6efd' }}>Canadian: {data.canadianCount.toLocaleString()} ({data.Canadian}%)</span>
+            <span style={{ color: '#0d6efd' }}>{t('tooltips.canadian')}: {data.canadianCount.toLocaleString()} ({data.Canadian}%)</span>
           </div>
           <div className="mb-0">
-            <span style={{ color: '#fd7e14' }}>International: {data.internationalCount.toLocaleString()} ({data.International}%)</span>
+            <span style={{ color: '#fd7e14' }}>{t('tooltips.international')}: {data.internationalCount.toLocaleString()} ({data.International}%)</span>
           </div>
+          {isHighestInternational && (
+            <div className="mt-2 fw-bold fs-5">
+              <small>{t('tooltips.internationalRatio')}</small>
+            </div>
+          )}
         </div>
       );
     }
@@ -38,46 +57,68 @@ const StudentTypeComparisonGraph = ({ data }) => {
 
   return (
     <div className="card">
-      <div className="card-header">
-        <h5 className="mb-0">Student Type Distribution Comparison</h5>
-        <small className="text-muted">Percentage distribution of Canadian vs International students (hover for total numbers)</small>
+      <div className="card-header greyBackground">
+        <h5 className="mb-0">
+          <span className="accentText">{mostInternational.institution}</span>{t('StudentTypeComparisonTitle1')}
+          <span className ="accentText">{t('StudentTypeComparisonTitle2')}</span>{t('StudentTypeComparisonTitle3')}
+        </h5>
+        <small className="text-muted">
+          {t('StudentTypeComparison')}
+        </small>
       </div>
-      <div className="card-body">
+      <div className="card-body whiteBackground">
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
+            layout="vertical"
             data={chartData}
             margin={{
               top: 20,
               right: 30,
-              left: 20,
+              left: 30,
               bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="name" 
-              angle={-45}
-              textAnchor="end"
-              height={120}
-              fontSize={12}
-            />
-            <YAxis 
+             <XAxis 
+              type="number"
               domain={[0, 100]}
               tickFormatter={(value) => `${value}%`}
               fontSize={12}
             />
+            <YAxis type="category" dataKey="name" width={100} fontSize={10} />
+           
             <Tooltip content={<CustomTooltip />} />
             <Legend />
             <Bar 
               dataKey="Canadian" 
+              name={t('Canadian')}
               fill="#0d6efd"
-              name="Canadian %"
-            />
+            >
+              {chartData.map((entry, index) => {
+                const isHighestInternational = entry.institution === mostInternational.institution;
+                return (
+                  <Cell
+                    key={`cell-canadian-${index}`}
+                    fill={isHighestInternational ? "#0d6efd" : "#72AAFE"}
+                  />
+                );
+              })}
+            </Bar>
             <Bar 
               dataKey="International" 
+              name={t('International')}
               fill="#fd7e14"
-              name="International %"
-            />
+            >
+              {chartData.map((entry, index) => {
+                const isHighestInternational = entry.institution === mostInternational.institution;
+                return (
+                  <Cell
+                    key={`cell-international-${index}`}
+                    fill={isHighestInternational ? "#fd7e14" : "#FDB570"}
+                  />
+                );
+              })}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

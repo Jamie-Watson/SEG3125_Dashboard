@@ -258,7 +258,7 @@ const UniversitySelector = () => {
   }, []);
   const graphData = getGraphData();
   return (
-    <div className="container-fluid mt-4">
+    <div className="container-fluid my-4">
       <div className="card mb-4 selectionContainer">
         <div className="card-header selectionTitle">
           <h4 className="mb-0 fs-2">{t("selector")}</h4>

@@ -62,9 +62,9 @@ const EnrollmentByYearGraph = ({ data }) => {
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
           <p className="fw-bold mb-1">{data.institution}</p>
-          <p className="mb-1">Year: {data.year}</p>
+          <p className="mb-1">{t('tooltips.year')}: {data.year}</p>
           <p className="mb-0 text-primary">
-            Total Enrollment: {formatNumber(data.total)}
+            {t('tooltips.enrollment')}: {formatNumber(data.total)}
           </p>
         </div>
       );
@@ -74,7 +74,7 @@ const EnrollmentByYearGraph = ({ data }) => {
 
   return (
     <div className="card">
-      <div className="card-header">
+      <div className="card-header greyBackground">
         <h5 className="mb-0">
           <span className="accentText">{largestInstitution}</span> {t('EnrollmentTitle1')}
           <span className="accentText">{t('EnrollmentTitle2')}</span>
@@ -82,7 +82,7 @@ const EnrollmentByYearGraph = ({ data }) => {
         </h5>
         <small className="text-muted">{t('EnrollmentByYearDescription')}</small>
       </div>
-      <div className="card-body">
+      <div className="card-body whiteBackground">
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
             data={chartData}

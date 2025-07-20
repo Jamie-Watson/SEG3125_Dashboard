@@ -1,3 +1,5 @@
+import StudentTypeComparisonGraph from "../components/StudentTypeComparisonGraph";
+
 const translations = {
   en: {
     dashboardTitle: "University Data",
@@ -21,8 +23,26 @@ const translations = {
     GenderDistributionTitle2: " most balanced gender distribution",
     GenderDistributionTitle3: " in the selected years",
     GenderDistributionDescription: "Percentage distribution of Men vs Women",
+    StudentTypeComparisonTitle1: " has the",
+    StudentTypeComparisonTitle2: " highest percentage of international students",
+    StudentTypeComparisonTitle3: " in the selected years",
+    StudentTypeComparison: "Percentage distribution of Canadian vs International students",
+
     Men: "Men %",
     Women: "Women %",
+    Canadian: "Canadian %",
+    International: "International %",
+    tooltips: {
+      enrollment: "Total Enrollment",
+      year: "Year",
+      academicYear: "Academic Year",
+      men: "Men",
+      women: "Women",
+      genderRatio: "Closest to 50/50 gender ratio",
+      canadian: "Canadian",
+      international: "International",
+      internationalRatio: "Highest percentage of international students"
+    },
     buttons: {
       add: "Add",
     },
@@ -54,8 +74,25 @@ const translations = {
     GenderDistributionTitle2: " distribution de genre la plus équilibrée",
     GenderDistributionTitle3: " dans les années sélectionnées",
     GenderDistributionDescription: "Distribution en pourcentage des hommes et des femmes",
+    StudentTypeComparisonTitle1: " a le",
+    StudentTypeComparisonTitle2: " plus grand pourcentage d'étudiants internationaux",
+    StudentTypeComparisonTitle3: " dans les années sélectionnées",
+    StudentTypeComparison: "Distribution en pourcentage des Canadiens et des Internationaux",
     Men: "Hommes %",
     Women: "Femmes %",
+    Canadian: "Canadiens %",
+    International: "Internationaux %",
+    tooltips: {
+      enrollment: "Inscription Totale",
+      year: "Année",
+      academicYear: "Année Académique",
+      men: "Hommes",
+      women: "Femmes",
+      genderRatio: "Le plus proche de la répartition 50/50",
+      canadian: "Canadiens",
+      international: "Internationaux",
+      internationalRatio: "Le plus grand pourcentage d'étudiants internationaux"
+    },
     buttons: {
       add: "Ajouter",
     },
