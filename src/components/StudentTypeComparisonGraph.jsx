@@ -98,7 +98,7 @@ const StudentTypeComparisonGraph = ({ data }) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
-      const isHighestInternational = data.name === mostInternational.name;
+      const isHighestInternational = data.institution === mostInternational.institution && data.year === mostInternational.year;
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
           <p className="mb-1">
@@ -171,7 +171,7 @@ const StudentTypeComparisonGraph = ({ data }) => {
             <Bar dataKey="Canadian" name={t("Canadian")} fill="#0d6efd">
               {chartData.map((entry, index) => {
                 const isHighestInternational =
-                  entry.institution === mostInternational.institution;
+                  entry.institution === mostInternational.institution && entry.year === mostInternational.year;
                 return (
                   <Cell
                     key={`cell-canadian-${index}`}
@@ -187,7 +187,7 @@ const StudentTypeComparisonGraph = ({ data }) => {
             >
               {chartData.map((entry, index) => {
                 const isHighestInternational =
-                  entry.institution === mostInternational.institution;
+                  entry.institution === mostInternational.institution && entry.year === mostInternational.year;
                 return (
                   <Cell
                     key={`cell-international-${index}`}

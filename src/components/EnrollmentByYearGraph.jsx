@@ -62,12 +62,14 @@ const EnrollmentByYearGraph = ({ data }) => {
   const { chartData, maxValue } = useMemo(() => {
     let maxEnrollment = 0;
     let topInstitution = "";
+    let topYear = "";
 
     data.forEach((item) => {
       const enrollment = parseInt(item.total) || 0;
       if (enrollment > maxEnrollment) {
         maxEnrollment = enrollment;
         topInstitution = item.institution;
+        topYear = item.year;
       }
     });
 
@@ -84,7 +86,7 @@ const EnrollmentByYearGraph = ({ data }) => {
         institution: item.institution,
         year: item.year,
         total: enrollment,
-        isLargest: item.institution === topInstitution,
+        isLargest: item.institution === topInstitution && item.year === topYear,
       };
     });
 

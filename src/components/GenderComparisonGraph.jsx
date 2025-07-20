@@ -103,7 +103,7 @@ const GenderComparisonGraph = ({ data }) => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
-      const isBalanced = data.name === mostBalanced.name;
+      const isBalanced = data.institution === mostBalanced.institution && data.year === mostBalanced.year;
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
           <p className="mb-1">
@@ -178,7 +178,7 @@ const GenderComparisonGraph = ({ data }) => {
             <Bar dataKey="Men" name={t("Men")} fill="#0d6efd">
               {chartData.map((entry, index) => {
                 const isBalanced =
-                  entry.institution === mostBalanced.institution;
+                  entry.institution === mostBalanced.institution && entry.year === mostBalanced.year;
                 return (
                   <Cell
                     key={`cell-men-${index}`}
@@ -191,7 +191,7 @@ const GenderComparisonGraph = ({ data }) => {
             <Bar dataKey="Women" name={t("Women")} fill="#dc3545">
               {chartData.map((entry, index) => {
                 const isBalanced =
-                  entry.institution === mostBalanced.institution;
+                  entry.institution === mostBalanced.institution && entry.year === mostBalanced.year;
                 return (
                   <Cell
                     key={`cell-women-${index}`}
