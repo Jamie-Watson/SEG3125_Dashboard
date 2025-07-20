@@ -6,6 +6,18 @@
   caret-color: transparent;
 }
 
+@font-face {
+  font-family: 'Mulish';
+  src: url('../public/Mulish-VariableFont_wght.ttf') format('truetype'),
+       url('../public/Mulish-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body, html {
+  font-family: 'Mulish', sans-serif !important;
+}
+
 :root {
   --t-d-blue: #192A51;
   --t-l-blue: #3c86e2;
@@ -14,6 +26,8 @@
   --t-red: #e3655b;
   --t-gray: #c7c7c8;
 }
+
+
 
 .navbarContainer{
   width: 100%;
