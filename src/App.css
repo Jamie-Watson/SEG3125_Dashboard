@@ -1,0 +1,27 @@
+#root {
+  width: 100vw !important;
+  margin: 0;
+  padding: 0;
+  caret-color: transparent;
+}
+
+:root {
+  --t-d-blue: #192A51;
+  --t-l-blue: #3c86e2;
+  --t-white: #f7f7f7;
+  --t-black: #080705;
+  --t-red: #e3655b;
+  --t-gray: #c7c7c8;
+}
+
+.navbarContainer{
+  width: 100%;
+  background-color: var(--t-d-blue) !important;
+  color: var(--t-white) !important;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.whiteText {
+  color: var(--t-white) !important;
+}
