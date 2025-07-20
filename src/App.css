@@ -1,5 +1,6 @@
 #root {
   width: 100vw !important;
+  height: 100vh !important;
   margin: 0;
   padding: 0;
   caret-color: transparent;
@@ -24,4 +25,31 @@
 
 .whiteText {
   color: var(--t-white) !important;
+}
+
+.selectionTitle{
+  background-color: var(--t-d-blue) !important;
+  color: var(--t-white) !important;
+  border-radius: 16px 16px 0 0 !important;
+}
+
+.selectionContainer{
+  background-color: var(--t-white) !important;
+  border-radius: 16px;
+  color: var(--t-black) !important;
+}
+
+.addButton {
+  background-color: var(--t-l-blue) !important;
+  color: var(--t-white) !important;
+  border-radius: 8px !important;
+}
+
+.addButton:hover {
+  background-color: var(--t-d-blue) !important;
+  color: var(--t-white) !important;
+}
+
+.accentText {
+  color: var(--t-l-blue) !important;
 }

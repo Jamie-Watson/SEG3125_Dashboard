@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { t, setLanguage, getCurrentLanguage, getAvailableLanguages } from '../data/translations';
 
 function Navbar() {
@@ -11,7 +11,7 @@ function Navbar() {
   }, []);
   
   return (
-    <nav className="navbar navbar-expand-lg navbar-light navbarContainer p-3 fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-light navbarContainer p-3">
       <div className="container-fluid d-flex flex-column">
         <div className="d-flex w-100 align-items-start mb-2">
           <div className="navbar-brand whiteText flex-grow-1 fs-5" style={{

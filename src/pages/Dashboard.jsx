@@ -4,11 +4,9 @@ import UniversitySelector from "../components/UniversitySelector";
 function Dashboard() {
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
         <Navbar />
         <UniversitySelector />
-      <h1>Dashboard</h1>
-      <p>Welcome to your dashboard!</p>
     </div>
   );
 }
