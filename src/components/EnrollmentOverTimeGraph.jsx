@@ -1,24 +1,57 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useEffect, useState } from 'react';
-import { t } from '../data/translations';
+import { t, getCurrentLanguage } from '../data/translations';
 
 const EnrollmentOverTimeGraph = ({ data }) => {
   if (!data || Object.keys(data).length === 0) return null;
-
+  
+  console.log('EnrollmentOverTimeGraph received data:', data);
+  console.log('Data keys:', Object.keys(data));
+  console.log('First institution data:', Object.values(data)[0]);
+  
   const [, forceUpdate] = useState({});
+  const [currentLang, setCurrentLang] = useState(localStorage.getItem('selectedLanguage') || 'en');
   
-    useEffect(() => {
-      const handleLanguageChange = () => {
-        forceUpdate({});
-      };
-  
-      window.addEventListener('languageChange', handleLanguageChange);
-      return () => window.removeEventListener('languageChange', handleLanguageChange);
-    }, []);
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      const newLang = localStorage.getItem('selectedLanguage') || 'en';
+      setCurrentLang(newLang);
+      forceUpdate({});
+    };
+    
+    window.addEventListener('languageChange', handleLanguageChange);
+    return () => window.removeEventListener('languageChange', handleLanguageChange);
+  }, []);
+
+  const formatNumber = (value) => {
+    if (value === null || value === undefined) return '';
+    
+    console.log('formatNumber called with:', value, 'currentLang:', currentLang);
+    
+    if (currentLang === 'fr') {
+      const formatted = new Intl.NumberFormat('fr-CA', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+      console.log('French formatted:', formatted);
+      return formatted;
+    }
+    
+    const formatted = new Intl.NumberFormat('en-CA', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(value);
+    console.log('English formatted:', formatted);
+    return formatted;
+  };
 
   const allYears = new Set();
   Object.values(data).forEach(institutionData => {
-    institutionData.forEach(item => allYears.add(item.year));
+    if (Array.isArray(institutionData)) {
+      institutionData.forEach(item => allYears.add(item.year));
+    } else {
+      console.warn('institutionData is not an array:', institutionData);
+    }
   });
   
   const sortedYears = Array.from(allYears).sort();
@@ -26,8 +59,13 @@ const EnrollmentOverTimeGraph = ({ data }) => {
   const chartData = sortedYears.map(year => {
     const yearData = { year };
     Object.keys(data).forEach(institution => {
-      const institutionYearData = data[institution].find(item => item.year === year);
-      yearData[institution] = institutionYearData ? institutionYearData.total : null;
+      if (Array.isArray(data[institution])) {
+        const institutionYearData = data[institution].find(item => item.year === year);
+        yearData[institution] = institutionYearData ? institutionYearData.total : null;
+      } else {
+        console.warn(`data[${institution}] is not an array:`, data[institution]);
+        yearData[institution] = null;
+      }
     });
     return yearData;
   });
@@ -43,7 +81,7 @@ const EnrollmentOverTimeGraph = ({ data }) => {
           {payload.map((entry, index) => (
             entry.value !== null && (
               <p key={index} className="mb-1" style={{ color: entry.color }}>
-                {entry.dataKey}: {entry.value.toLocaleString()}
+                {entry.dataKey}: {formatNumber(entry.value)}
               </p>
             )
           ))}
@@ -67,6 +105,7 @@ const EnrollmentOverTimeGraph = ({ data }) => {
       <div className="card-body whiteBackground">
         <ResponsiveContainer width="100%" height={400}>
           <LineChart
+            key={currentLang} 
             data={chartData}
             margin={{
               top: 20,
@@ -77,14 +116,14 @@ const EnrollmentOverTimeGraph = ({ data }) => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
-              dataKey="year" 
+              dataKey="year"
               angle={-45}
               textAnchor="end"
               height={80}
               fontSize={12}
             />
             <YAxis 
-              tickFormatter={(value) => value.toLocaleString()}
+              tickFormatter={formatNumber}
               fontSize={12}
             />
             <Tooltip content={<CustomTooltip />} />

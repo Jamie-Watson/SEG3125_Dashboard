@@ -10,8 +10,73 @@ import {
   Cell,
 } from "recharts";
 import { t } from "../data/translations";
+import { useEffect, useState } from "react";
+
 const GenderComparisonGraph = ({ data }) => {
+  const [, forceUpdate] = useState({});
+  const [currentLang, setCurrentLang] = useState(
+    localStorage.getItem("selectedLanguage") || "en"
+  );
+
   if (!data || data.length === 0) return null;
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      const newLang = localStorage.getItem("selectedLanguage") || "en";
+      setCurrentLang(newLang);
+      forceUpdate({});
+    };
+
+    window.addEventListener("languageChange", handleLanguageChange);
+    return () =>
+      window.removeEventListener("languageChange", handleLanguageChange);
+  }, []);
+
+  const formatNumber = (value) => {
+    if (value === null || value === undefined) return "";
+
+    if (currentLang === "fr") {
+      return new Intl.NumberFormat("fr-CA", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(value);
+    }
+
+    return new Intl.NumberFormat("en-CA", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const formatPercentage = (value) => {
+    if (value === null || value === undefined) return "";
+
+    const numericValue = parseFloat(value);
+    if (isNaN(numericValue)) return "";
+
+    if (currentLang === "fr") {
+      return (
+        new Intl.NumberFormat("fr-CA", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 1,
+        }).format(numericValue) + " %"
+      );
+    }
+
+    return (
+      new Intl.NumberFormat("en-CA", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      }).format(numericValue) + "%"
+    );
+  };
+
+  const formatAxisPercentage = (value) => {
+    if (currentLang === "fr") {
+      return `${value} %`;
+    }
+    return `${value}%`;
+  };
 
   const chartData = data.map((item) => {
     const genderRatio = Math.abs((item.men / item.total) * 100 - 50);
@@ -41,20 +106,24 @@ const GenderComparisonGraph = ({ data }) => {
       const isBalanced = data.name === mostBalanced.name;
       return (
         <div className="bg-white p-3 border rounded shadow-sm">
-          <p className="mb-1">{t('tooltips.year')}: {data.year}</p>
+          <p className="mb-1">
+            {t("tooltips.year")}: {data.year}
+          </p>
           <div className="mb-2">
             <span className="fw-bold">
-              {t('tooltips.enrollment')}: {data.totalCount.toLocaleString()}
+              {t("tooltips.enrollment")}: {formatNumber(data.totalCount)}
             </span>
           </div>
           <div className="mb-1">
             <span style={{ color: "#0d6efd" }}>
-              {t('tooltips.men')}: {data.menCount.toLocaleString()} ({data.Men}%)
+              {t("tooltips.men")}: {formatNumber(data.menCount)} (
+              {formatPercentage(data.Men)})
             </span>
           </div>
           <div className="mb-0">
             <span style={{ color: "#dc3545" }}>
-              {t('tooltips.women')}: {data.womenCount.toLocaleString()} ({data.Women}%)
+              {t("tooltips.women")}: {formatNumber(data.womenCount)} (
+              {formatPercentage(data.Women)})
             </span>
           </div>
           {isBalanced && (
@@ -72,7 +141,6 @@ const GenderComparisonGraph = ({ data }) => {
     <div className="card">
       <div className="card-header greyBackground">
         <h5 className="mb-0">
-
           {mostBalanced?.institution && (
             <span className="accentText">{mostBalanced.institution}</span>
           )}
@@ -87,6 +155,7 @@ const GenderComparisonGraph = ({ data }) => {
       <div className="card-body whiteBackground">
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
+            key={currentLang}
             layout="vertical"
             data={chartData}
             margin={{
@@ -100,13 +169,13 @@ const GenderComparisonGraph = ({ data }) => {
             <XAxis
               type="number"
               domain={[0, 100]}
-              tickFormatter={(value) => `${value}%`}
+              tickFormatter={formatAxisPercentage}
               fontSize={12}
             />
             <YAxis type="category" dataKey="name" width={100} fontSize={10} />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
-            <Bar dataKey="Men" name={t('Men')} fill="#0d6efd">
+            <Bar dataKey="Men" name={t("Men")} fill="#0d6efd">
               {chartData.map((entry, index) => {
                 const isBalanced =
                   entry.institution === mostBalanced.institution;
@@ -119,7 +188,7 @@ const GenderComparisonGraph = ({ data }) => {
               })}
             </Bar>
 
-            <Bar dataKey="Women" name={t('Women')} fill="#dc3545">
+            <Bar dataKey="Women" name={t("Women")} fill="#dc3545">
               {chartData.map((entry, index) => {
                 const isBalanced =
                   entry.institution === mostBalanced.institution;

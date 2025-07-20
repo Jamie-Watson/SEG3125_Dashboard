@@ -28,10 +28,10 @@ const translations = {
     StudentTypeComparisonTitle3: " in the selected years",
     StudentTypeComparison: "Percentage distribution of Canadian vs International students",
 
-    Men: "Men %",
-    Women: "Women %",
-    Canadian: "Canadian %",
-    International: "International %",
+    Men: "Men%",
+    Women: "Women%",
+    Canadian: "Canadian%",
+    International: "International%",
     tooltips: {
       enrollment: "Total Enrollment",
       year: "Year",
