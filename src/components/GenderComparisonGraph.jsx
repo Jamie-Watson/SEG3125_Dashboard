@@ -165,7 +165,7 @@ const GenderComparisonGraph = ({ data }) => {
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid horizontal={false} vertical={true} strokeDasharray="3 3" />
             <XAxis
               type="number"
               domain={[0, 100]}

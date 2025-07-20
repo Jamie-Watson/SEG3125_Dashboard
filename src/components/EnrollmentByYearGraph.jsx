@@ -131,7 +131,7 @@ const EnrollmentByYearGraph = ({ data }) => {
             layout="vertical"
             margin={{ top: 20, right: 30, left: 30, bottom: 20 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid horizontal={false} vertical={true} strokeDasharray="3 3" />
             <XAxis
               type="number"
               domain={[0, maxValue]}
